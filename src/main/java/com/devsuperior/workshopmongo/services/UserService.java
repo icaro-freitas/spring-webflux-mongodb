@@ -17,6 +17,8 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repository;
+	
+	/*
 
 	@Transactional(readOnly = true)
 	public List<UserDTO> findAll() {
@@ -65,4 +67,6 @@ public class UserService {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
 	}
+	
+	*/
 }
