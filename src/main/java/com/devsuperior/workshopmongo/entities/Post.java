@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "post")
 public class Post {
@@ -17,9 +18,12 @@ public class Post {
 	private String title;
 	private String body;
 	private Author author;
-	
+
+	@DocumentReference
+	private User user;
+
 	private List<Comment> comments = new ArrayList<>();
-	
+
 	public Post() {
 	}
 
@@ -30,7 +34,7 @@ public class Post {
 		this.body = body;
 		this.author = author;
 	}
-	
+
 	public Post(String id, Instant date, String title, String body, String authorId, String authorName) {
 		this.id = id;
 		this.date = date;
@@ -78,11 +82,11 @@ public class Post {
 	public void setAuthor(Author author) {
 		this.author = author;
 	}
-	
+
 	public String getAuthorId() {
 		return author.getId();
 	}
-	
+
 	public String getAuthorName() {
 		return author.getName();
 	}
@@ -90,7 +94,15 @@ public class Post {
 	public List<Comment> getComments() {
 		return comments;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public void addComment(String CommentText, Instant commentDate, String authorId, String authorName) {
 		Comment comment = new Comment(CommentText, date, authorId, authorName);
 		comments.add(comment);
@@ -117,10 +129,10 @@ public class Post {
 }
 
 class Author {
-	
+
 	private String id;
 	private String name;
-	
+
 	public Author() {
 	}
 
@@ -128,7 +140,7 @@ class Author {
 		this.id = id;
 		this.name = name;
 	}
-	
+
 	public Author(User entity) {
 		id = entity.getId();
 		name = entity.getName();
@@ -148,15 +160,15 @@ class Author {
 
 	public void setName(String name) {
 		this.name = name;
-	}	
+	}
 }
 
 class Comment {
-	
+
 	private String text;
 	private Instant date;
 	private Author author;
-	
+
 	public Comment() {
 	}
 
@@ -165,7 +177,7 @@ class Comment {
 		this.date = date;
 		this.author = author;
 	}
-	
+
 	public Comment(String text, Instant date, String authorId, String authorName) {
 		this.text = text;
 		this.date = date;
